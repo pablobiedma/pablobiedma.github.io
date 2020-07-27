@@ -14,7 +14,7 @@ body{
   margin: 10px;
   border-radius: 30%;
   box-shadow: 0 5px 15px -5px #00000070;
-  color: #3498db;
+  color: #eb6e78;
   overflow: hidden;
   position: relative;
 }
@@ -31,15 +31,15 @@ body{
     width: 33%;
 }
 
-*, :after, :before {
+/* *, :after, :before {
     box-sizing: inherit;
-}
+} */
 .btn::before{
   content: "";
   position: absolute;
   width: 120%;
   height: 120%;
-  background: #3498db;
+  background: #eb6e78;
   transform: rotate(45deg);
   left: -110%;
   top: 90%;
@@ -49,12 +49,12 @@ body{
   top: -10%;
   left: -10%;
 }
-div {
+/* div {
     display: block;
-}
-li {
+} */
+/* li {
     text-align: -webkit-match-parent;
-}
+} */
 .pv-profile-wrapper .accomplishments-list, .pv-profile-wrapper .activity-list, .pv-profile-wrapper .section-info {
     list-style: none inside;
 }
@@ -67,10 +67,10 @@ li {
     position: relative;
     list-style: none;
 }
-body, p {
+/* body, {
     font-size: 1.6rem;
     line-height: 1.5;
-}
+} */
 body {
     font-family: -apple-system,system-ui,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Fira Sans,Ubuntu,Oxygen,Oxygen Sans,Cantarell,Droid Sans,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Lucida Grande,Helvetica,Arial,sans-serif;
 }
@@ -80,10 +80,7 @@ body {
     clear: both;
     z-index: 0;
 }
-.large-header, body, h1, p {
-    font-weight: 400;
-    color: rgba(0,0,0,.9);
-}
+
 .pv-recommendation-entity:last-child {
     padding-bottom: 0;
 }
@@ -93,20 +90,20 @@ body {
     border-top: 1px solid #e6e9ec;
     padding: 16px 0;
 }
-.pv-profile-wrapper a:visited, .pv-recent-activity-article-v2__social-action--liked {
+/* .pv-profile-wrapper a:visited, .pv-recent-activity-article-v2__social-action--liked {
     color: #0073b1;
 }
 .pv-profile-wrapper a {
     text-decoration: none;
-}
+} */
 .pv-recommendation-entity__member::before {
     display: block;
     content: "";
     width: 25%;
 }
-*, :after, :before {
+/* *, :after, :before {
     box-sizing: inherit;
-}
+} */
 .fl {
     float: left!important;
 }
@@ -124,20 +121,13 @@ body {
     font-size: 1.6rem;
     line-height: 1.5;
 }
-.t-bold {
+/* .t-bold {
     font-weight: 600;
-}
-.t-black {
+} */
+/* .t-black {
     color: rgba(0,0,0,.9);
-}
-.large-text, h3 {
-    font-size: 2.4rem;
-    line-height: 1.33333;
-}
-.large-text, h2, h3 {
-    font-weight: 400;
-    color: rgba(0,0,0,.9);
-}
+} */
+
 .pb1 {
     padding-bottom: 4px!important;
 }
@@ -148,13 +138,10 @@ body {
 .t-normal {
     font-weight: 400;
 }
-.t-black {
+/* .t-black {
     color: rgba(0,0,0,.9);
-}
-.large-header, body, h1, p {
-    font-weight: 400;
-    color: rgba(0,0,0,.9);
-}
+} */
+
 .t-12 {
     font-size: 1.2rem;
     line-height: 1.33333;
@@ -162,17 +149,14 @@ body {
 .t-normal {
     font-weight: 400;
 }
-.t-black--light {
+/* .t-black--light {
     color: rgba(0,0,0,.6);
-}
-.large-header, body, h1, p {
-    font-weight: 400;
-    color: rgba(0,0,0,.9);
-}
-html.artdeco {
+} */
+
+/* html.artdeco {
     -webkit-font-smoothing: antialiased;
-}
-html {
+} */
+/* html {
     font-size: 62.5%;
 }
 *, :after, :before {
@@ -180,8 +164,8 @@ html {
 }
 *, :after, :before {
     box-sizing: inherit;
-}
-abbr, address, article, aside, audio, b, blockquote, body, canvas, caption, cite, code, dd, del, details, dfn, div, dl, dt, em, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, ins, kbd, label, legend, li, mark, menu, nav, object, ol, p, pre, q, samp, section, small, span, strong, summary, table, tbody, td, tfoot, th, thead, time, tr, ul, var, video {
+} */
+/* abbr, address, article, aside, audio, b,  canvas, caption, cite, code, dd, del, details, dfn, div, dl, dt, em, fieldset, figcaption, figure, footer, form, h4, h5, h6, hgroup, html, i, iframe, img, ins, kbd, label, legend, li, mark, menu, nav, object, ol, p, pre, q, samp, section, small, span, strong, summary, table, tbody, td, tfoot, th, thead, time, tr, ul, var, video {
     margin: 0;
     padding: 0;
     border: 0;
@@ -189,22 +173,17 @@ abbr, address, article, aside, audio, b, blockquote, body, canvas, caption, cite
     vertical-align: baseline;
     background: transparent;
 }
-abbr, audio, b, body, canvas, caption, cite, code, del, dfn, em, h1, h2, h3, h4, h5, h6, html, i, iframe, img, ins, kbd, label, legend, mark, object, q, samp, small, span, strong, summary, tbody, td, tfoot, th, thead, time, tr, var, video {
+abbr, audio, b, canvas, caption, cite, code, del, dfn, em, h4, h5, h6, i, iframe, img, ins, kbd, label, legend, mark, object, q, samp, small, span, strong, summary, tbody, td, tfoot, th, thead, time, tr, var, video {
     outline: 0;
-}
+} */
 .pv-profile-wrapper .accomplishments-list, .pv-profile-wrapper .activity-list, .pv-profile-wrapper .section-info {
     list-style: none inside;
 }
 .pv-recommendation-entity__header {
     width: 33%;
 }
-.pv-profile-wrapper a:visited, .pv-recent-activity-article-v2__social-action--liked {
-    color: #0073b1;
-}
-.pv-profile-wrapper a {
-    text-decoration: none;
-}
-a[href], button {
+
+/* a[href], button {
     touch-action: manipulation;
 }
 a:visited {
@@ -212,7 +191,7 @@ a:visited {
 }
 a, a:visited {
     color: #0073b1;
-}
+} */
 .pv-recommendation-entity__member {
     display: block;
     overflow: auto;
@@ -220,12 +199,12 @@ a, a:visited {
 .pds-ge-entry-card__card-body:focus, .pds-ge-entry-card__card-body:hover, .pds-pcm-level-up-modal__todo-list-link, .pds-pcm-progress__show-more-button, .pds-pcm-progress__show-more-button:focus, .pds-pcm-progress__show-more-button:hover, .pds-pcm-todo-list__item, .pv-highlights-detail-job-card__link:focus, .pv-highlights-detail-job-card__link:hover, .pv-interests-modal .pv-interest-entity-link:hover, .pv-recommendation-entity__member, .pv-recommendations__member {
     text-decoration: none;
 }
-a {
+/* a {
     text-decoration: none;
     font-weight: 600;
     background-color: transparent;
     border: 0;
-}
+} */
 .pv-recommendation-entity__highlights {
     width: 66%;
     padding-left: 16px;
@@ -233,7 +212,11 @@ a {
 .relative {
     position: relative!important;
 }
-blockquote {
+.lt-line-clamp__line, .lt-line-clamp__line--last{
+  color:  #72727e;
+  text-size: 12;
+}
+/* blockquote {
     font-weight: 400;
     font-size: 1.6rem;
     line-height: 1.5;
@@ -241,8 +224,8 @@ blockquote {
 }
 blockquote, q {
     quotes: none;
-}
-a {
+} */
+/* a {
     margin: 0;
     padding: 0;
     font-size: 100%;
@@ -253,7 +236,7 @@ a:-webkit-any-link {
     color: -webkit-link;
     cursor: pointer;
     text-decoration: underline;
-}
+} */
 .artdeco-container-card {
     display: block;
     background-color: #fff;
