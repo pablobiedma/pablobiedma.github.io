@@ -339,8 +339,8 @@ dfn, cite, em, i {
 
 blockquote {
   margin: 0 0 1em;
-  font-style: italic;
-  font-size: 1.5em;
+  /* font-style: italic; */
+  font-size: 1.25em;
   line-height: 1.286em;
   color: #eb6e78; }
   blockquote cite,
