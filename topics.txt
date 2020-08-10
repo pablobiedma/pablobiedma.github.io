@@ -36,3 +36,4 @@
 -The pestizide paradox
 -How I traveled around Europe for free 
 -Why I stopped playing videogames (or why you should) 
+-I made a contact tracing app to fight against COVID19
