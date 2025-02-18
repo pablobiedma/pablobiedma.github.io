@@ -40,7 +40,7 @@
     </style>
 </head>
 <body>
-    <h1>Photography Portfolio</h1>
+    <h1>Pablo Biedma</h1>
     <div class="gallery" id="gallery"></div>
     
     <script>
@@ -51,7 +51,7 @@
             .then(response => response.json())
             .then(data => {
                 data.forEach(file => {
-                    if (file.name.endsWith(".bmp")) {
+                    if (file.name.toLowerCase().endsWith(".png")) {
                         const img = document.createElement("img");
                         img.src = `https://raw.githubusercontent.com/pablobiedma/pablobiedma.github.io/master/film/${file.name}`;
                         img.alt = file.name;
