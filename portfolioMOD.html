@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Pablo Biedma's filmmaking portfolio</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: Arial, sans-serif;
+			background-color: black;
+		}
+
+		header {
+			position: relative;
+			height: 500px;
+			background-color: black;
+			color: white;
+			text-align: center;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			overflow: hidden;
+		}
+
+		header video {
+			position: absolute;
+			top: 0;
+			left: 0;
+			min-width: 100%;
+			min-height: 100%;
+			z-index: -1;
+			filter: brightness(50%);
+		}
+
+		.container {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+			grid-gap: 20px;
+			margin: 0 auto;
+			padding: 50px;
+			max-width: 1200px;
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			grid-gap: 20px;
+		}
+
+		@media screen and (max-width: 768px) {
+			.container {
+				grid-template-columns: 1fr;
+			}
+		}
+
+		.video {
+			position: relative;
+			padding-bottom: 56.25%;
+			overflow: hidden;
+		}
+
+		.video:hover .play {
+			opacity: 1;
+		}
+
+		.video:hover img {
+			opacity: 0.5;
+		}
+
+		.video:hover video {
+			filter: brightness(60%);
+			cursor: pointer;
+		}
+
+		.video img {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			opacity: 1;
+			transition: opacity 0.5s ease-in-out;
+		}
+
+		.video video {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			opacity: 1;
+			transition: filter 0.5s ease-in-out;
+		}
+
+		.play {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			font-size: 4em;
+			color: white;
+			opacity: 0;
+			transition: opacity 0.5s ease-in-out;
+			cursor: pointer;
+		}
+
+		.play:hover {
+			text-shadow: 0px 0px 10px white;
+		}
+
+		.video-desc {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			padding: 20px;
+			box-sizing: border-box;
+			background-color: transparent;
+			color: white;
+			opacity: 0;
+			transition: opacity 0.5s ease-in-out;
+		}
+
+		.thumbnail {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			opacity: 0;
+			transition: opacity 0.3s ease;
+		}
+
+		.video:hover .thumbnail {
+			opacity: 1;
+		}
+
+		.video:hover .video-desc {
+			opacity: 1;
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+		<h1>Pablo Biedma's filmmaking portfolio</h1>
+	</header>
+	<div class="container">
+		<div class="video">
+			<video id="video1" src="videos/What is data privacy v2.mp4" poster="thumbnails/video1.png"
+				onclick="this.requestFullscreen()" onmouseover="this.play()" onmouseout="this.load()" loop
+				muted></video>
+			<div class="video-desc">
+				<p>Privacy tech at BMW</p>
+			</div>
+		</div>
+		<div class="video">
+			<video src="videos/noliecanliveforeverportfolio.mp4" poster="thumbnails/video2.png"
+				onclick="this.requestFullscreen()" onmouseover="this.play()" onmouseout="this.load(); this.currentTime=0;" muted
+				loop></video>
+			<div class="video-desc">
+				<p>No lie can live forever</p>
+			</div>
+		</div>
+		<div class="video">
+			<video src="videos/innovationdaysteaserportfolio.mp4" poster="thumbnails/video3.png"
+				onclick="this.requestFullscreen()" onmouseover="this.play()" onmouseout="this.load()" loop
+				muted></video>
+			<div class="video-desc">
+				<p>Innovation Days Teaser Video</p>
+			</div>
+		</div>
+		<div class="video">
+			<video src="videos/farewellcollectionportfolio.mp4" poster="thumbnails/video4.png"
+				onclick="this.requestFullscreen()" onmouseover="this.play()" onmouseout="this.load()" loop
+				muted></video>
+			<div class="video-desc">
+				<p>The Farewell Collection Vol. 1</p>
+			</div>
+		</div>
+		<div class="video">
+			<video src="videos/directorreelportfolio.mp4" poster="thumbnails/video5.png"
+				onclick="this.requestFullscreen()" onmouseover="this.play()" onmouseout="this.load()" loop
+				muted></video>
+			<div class="video-desc">
+				<p>Director's reel</p>
+			</div>
+		</div>
+		<div class="video">
+			<video src="videos/inasentimentalmoodportfolio.mp4" poster="thumbnails/video6.png"
+				onclick="this.requestFullscreen()" onmouseover="this.play()" onmouseout="this.load()" muted
+				loop></video>
+			<div class="video-desc">
+				<p>In a sentimental mood</p>
+			</div>
+		</div>
+</body>
+
+</html>
