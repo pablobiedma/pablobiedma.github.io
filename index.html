@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+  <title>Pablo Biedma</title>
+
+  <!-- Icons (Font Awesome + Academicons for future use) -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/academicons@1.9.4/css/academicons.min.css">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Oswald:wght@500&display=swap" rel="stylesheet">
+
+  <!-- Favicon -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/favicon.png" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+
+  <style>
+/* ==== Base ==== */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif; font-size: 1rem; line-height: 1.5; }
+@media (min-width: 49rem) { html { font-size: 1.25rem; } }
+body { text-size-adjust: 100%; }
+main, article, section { display: block; }
+a { color: #0390fc; text-decoration: none; }
+a:hover, a:focus { text-decoration: underline; }
+img { border-radius: 5px; display: block; height: auto; margin: 0 0 1rem; max-width: 100%; }
+h1, h2, h3, h4, h5, h6, .site-title { color: #313131; font-weight: 600; line-height: 1.25; margin-bottom: 0.5rem; text-rendering: optimizeLegibility; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.5rem; margin-top: 1rem; }
+h3 { font-size: 1.25rem; margin-top: 1.5rem; }
+h4, h5, h6 { font-size: 1rem; margin-top: 1rem; }
+p { margin-bottom: 1rem; margin-top: 0; }
+ul, ol { margin: 0 0 1rem; padding-inline-start: 20px; }
+
+/* ==== Layout (sidebar + content) ==== */
+body { background-attachment: fixed; background-color: #fff; background-image: linear-gradient(to bottom, white, #ededed); color: rgba(51, 51, 51, 0.75); display: flex; flex-direction: column; min-height: 100vh; }
+#sidebar { flex: 0 0 auto; padding: 2rem; }
+#sidebar .site-title { font-family: 'Merriweather', serif; font-size: 1.25rem; font-weight: normal; margin-bottom: 0.5rem; margin-top: 0; }
+.content { background: #fff; color: #515151; padding: 2rem; }
+.container { display: flex; flex: 1 1 auto; flex-direction: column; }
+.container > .content { flex-grow: 1; padding-bottom: 4rem; }
+
+/* ---- Mobile (sidebar at top) ---- */
+#sidebar header ~ *, #sidebar header ~ nav, #sidebar p.lead { display: none; }
+.container > header { background: transparent; color: #333; margin: -1.5rem 2rem 2rem; }
+.container > header h1:last-child, .container > header h2:last-child { margin-bottom: 0; }
+
+/* ---- Mobile home specifics ---- */
+.home #sidebar { text-align: center; }
+.home #sidebar .site-title { font-size: 3.25rem; }
+.home #sidebar header ~ *, .home #sidebar p.lead { display: block; }
+.home #sidebar header ~ nav { display: flex; }
+.home #sidebar > *:last-child { margin-bottom: 0.5rem; }
+
+@media (min-width: 49rem) {
+  body {
+    flex-direction: row;
+    min-height: 100vh;
+    overflow-y: visible; /* only the main page scrolls */
+  }
+
+  body > * {
+    overflow: visible; /* remove independent scroll areas */
+  }
+
+  #sidebar,
+  .home #sidebar {
+    text-align: left;
+    width: 18rem;
+  }
+
+  #sidebar > *:last-child,
+  .home #sidebar > *:last-child {
+    margin-bottom: 0;
+  }
+
+  #sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow: visible; /* remove scroll */
+  }
+
+  #sidebar .site-title {
+    font-size: 3.25rem;
+  }
+
+  #sidebar p.lead,
+  #sidebar header ~ * {
+    display: block;
+  }
+
+  #sidebar header ~ nav {
+    display: flex;
+  }
+
+  .index #sidebar {
+    margin-bottom: 0;
+  }
+
+  .container {
+    background: #fff;
+    color: #515151;
+    min-height: 100vh;
+    padding: 4rem 4rem 0;
+    margin-left: 18rem; /* main content offset */
+  }
+
+  .container > header {
+    color: #313131;
+    margin: 0;
+  }
+
+  .container > * {
+    max-width: 38rem;
+    padding: 0;
+  }
+}
+
+
+/* ---- Sidebar links + nav ---- */
+#sidebar a { color: #333; }
+#sidebar a:hover, #sidebar a:focus { text-decoration: underline; }
+#sidebar a.active { font-weight: bold; }
+#sidebar nav { display: flex; }
+#sidebar-nav-links { flex-flow: column nowrap; }
+#sidebar-icon-links { flex-flow: row wrap; justify-content: center; margin-top: 1rem; max-width: 100%; }
+@media (min-width: 49rem) { #sidebar-icon-links { justify-content: flex-start; margin-left: -0.25em; } }
+#sidebar nav > * { display: block; line-height: 1.75; }
+#sidebar nav > .icon { display: inline-block; font-size: 1.5rem; margin: 0 0.25em; }
+
+/* Misc */
+.masthead { margin-bottom: 3rem; padding-bottom: 1rem; padding-top: 1rem; }
+.page-title { margin-top: 0; }
+.posts-list { list-style: none; padding-left: 0; }
+.post-meta { color: #767676; margin-bottom: 1rem; margin-top: -0.5rem; }
+article + *, .post-body ~ section { border-top: 1px solid #e5e5e5; margin-top: 2rem; padding-top: 2rem; }
+
+body { background-image: linear-gradient(to top, white, #f7f7f7); }
+.container > * { max-width: 100%; }
+html { font-size: 11pt; }
+.lead { font-size: 1rem; font-weight: 300; }
+#sidebar .site-title { font-family: 'Merriweather', sans-serif; font-size: 3.25rem; }
+#sidebar nav > .icon { font-size: 1rem; }
+span.post-date { color: #aaa; }
+div.posts { padding-top: 10px; padding-bottom: 10px; }
+div.post { margin-top: 10px; border-bottom: 1px dashed #eee; margin-bottom: 20px; }
+
+/* Print */
+@media print {
+  #sidebar { display: none; }
+  body { display: block; }
+  .container { display: block; margin-left: 0; margin-right: 0; padding: 0; }
+  .container > * { max-width: 100%; }
+  html { font-size: normal; }
+}
+/* --- Icon styling for sidebar --- */
+#sidebar-icon-links {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+#sidebar-icon-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 4px;
+}
+
+#sidebar-icon-links img {
+  width: 22px;
+  height: 22px;
+  opacity: 0.85;
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+#sidebar-icon-links a:hover img {
+  opacity: 1;
+  transform: scale(1.05);
+}
+/* Awards list layout */
+.awards-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.awards-list li {
+  display: grid;
+  grid-template-columns: 5rem 1fr; /* year column | detail column */
+  gap: 1rem;
+  align-items: start;
+  padding: .5rem 0;
+  border-bottom: 1px solid #eee;
+}
+.awards-list li:first-child { border-top: 1px solid #eee; }
+.awards-list .year {
+  font-weight: 600;
+  color: #666;
+}
+.awards-list .detail {
+  color: #333;
+}
+/* Awards list layout */
+.awards-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.awards-list li {
+  display: grid;
+  grid-template-columns: 5rem 1fr;
+  gap: 1rem;
+  align-items: start;
+  padding: .4rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.awards-list li:first-child {
+  border-top: 1px solid #eee;
+}
+
+.awards-list .year {
+  font-weight: 600;
+  color: #0390fc; /* same as link color */
+}
+
+.awards-list .year:empty::before {
+  content: "";
+  display: block;
+  visibility: hidden;
+}
+
+.awards-list .detail {
+  color: #333;
+}
+#publications ul li {
+  margin-bottom: 1rem; /* small gap between items */
+}
+#publications ul li:last-child {
+  margin-bottom: 0; /* no gap after last item */
+}
+
+
+
+
+  </style>
+</head>
+
+<body class="index home">
+  <!-- ===== Sidebar ===== -->
+  <div id="sidebar">
+    <header>
+      <!-- photo -->
+      <img src="https://github.com/pablobiedma/pablobiedma.github.io/blob/master/images/Portrait2.png?raw=true" alt="Portrait" style="margin-top: 32px;"/>
+
+      <h1 class="site-title">Pablo Biedma</h1>
+      <p class="lead">Researcher<br/>Tsinghua University</p>
+    </header>
+
+    <nav id="sidebar-nav-links" aria-label="Primary">
+      <a class="page-link active" href="https://pablobiedma.github.io/">Home</a>
+      <a class="page-link" href="https://pablobiedma.github.io/portfolio.html">Art</a>
+      <a class="page-link" href="https://raw.githubusercontent.com/pablobiedma/pablobiedma.github.io/master/images/Detailed_Pablo%20Biedma_CV.pdf
+">Detailed CV</a> 
+    </nav>
+
+    <nav id="sidebar-icon-links" aria-label="Profiles" style="display:flex; gap:.8rem; align-items:center; margin-top:1rem;">
+    <!-- <nav id="sidebar-icon-links" aria-label="Profiles"> -->
+  <a href="mailto:pablobie00@gmail.com" aria-label="Email" title="Email">
+    <img src="https://raw.githubusercontent.com/pablobiedma/pablobiedma.github.io/d9651174244d8a7c7a3f4ff5c7d70b4084ebea43/images/email-svgrepo-com.svg" 
+         alt="Email">
+  </a>
+
+  <a href="https://scholar.google.com/citations?user=1Oy1Gb8AAAAJ&hl=en" target="_blank" rel="noopener" 
+     aria-label="Google Scholar" title="Google Scholar">
+    <img src="https://raw.githubusercontent.com/pablobiedma/pablobiedma.github.io/d9870b7e7ed24191ec64a8a35a78dc3c79ae1a1e/images/icons8-google-scholar.svg" 
+         alt="Google Scholar">
+  </a>
+
+  <a href="https://github.com/pablobiedma" target="_blank" rel="noopener" 
+     aria-label="GitHub" title="GitHub">
+    <img src="https://raw.githubusercontent.com/pablobiedma/pablobiedma.github.io/d9651174244d8a7c7a3f4ff5c7d70b4084ebea43/images/github-142-svgrepo-com.svg" 
+         alt="GitHub">
+  </a>
+</nav>
+
+    </nav>
+
+    <p style="font-size:0.9rem; color:#777; margin-top:0.5rem;">
+      © 2025. Pablo Biedma
+    </p>
+  </div>
+
+    <!-- ===== Main Container ===== -->
+  <div class="container">
+    <main class="content">
+      <article id="about" class="post-body">
+        <!-- <p class="lead"> -->
+        <p>
+          I am a recent graduate from the Computer Science department at Tsinghua University, supervised by
+          <a href="https://scholar.google.com/citations?hl=en&user=zIgT0HMAAAAJ" title="Prof. Maosong Sun">Professor Maosong Sun</a>.
+        </p>
+
+        <p>
+          During the Advanced Computing program, I also interned at the Social Computing group at Microsoft Research Asia under
+          <a href="https://en.wikipedia.org/wiki/Xing_Xie" title="Dr. Xing Xie">Dr. Xing Xie</a>, where I collaborated with Professors Linus Huang and David Haslett from the Hong Kong University of Science and Technology
+          on several papers on Large Language Model evaluation.
+        </p>
+
+        <p>
+          Leveraging this experience, I currently serve as a part-time Junior AI Consultant at the Chinese Internet Development
+          Foundation (中国互联网发展基金会, <a href="http://www.cidf.net/" title="CIDF">CIDF</a>), where I survey advanced NLP topics.
+        </p>
+
+        <p>
+          Previously, I earned a B.Sc. in Computer Science and Engineering at Delft University of Technology, where I was named
+          Top Talent Under 25 in Software Engineering, and conducted user studies on ML fairness for my bachelor's <a href="https://repository.tudelft.nl/record/uuid:80206eee-fd99-4511-ba08-95716e3f1cf7" title="Bachelor Thesis">thesis</a> under
+          <a href="https://yangjiera.github.io/" title="Prof. Jie Yang">Prof. Jie Yang</a>, <a href="https://ujwalgadiraju.com/" title="Prof. Ujwal Gadiraju">Prof. Ujwal Gadiraju</a>,
+          and <a href="https://agathe-balayn.github.io/" title="Dr. Agathe Balayn">Dr. Agathe Balayn</a>.
+        </p>
+
+        <p>
+          During my undergrad, I minored in Intelligence Studies at Leiden University and conducted research on blockchain malicious data
+          insertion at Europol under <a href="https://www.linkedin.com/in/jakubcek" title="Jarek Jakubcek">Jarek Jakubcek</a>, leading to a certificate of
+          appreciation from <a href="https://www.europol.europa.eu/media-press/newsroom/news/new-head-of-europol%E2%80%99s-european-cybercrime-centre" title="Steven Wilson">Steven Wilson</a>, Head of Europol’s European Cybercrime Center.
+        </p>
+
+        <p>
+          This led to an internship at BMW in Munich, where I worked on cryptography in distributed systems by implementing
+          multi-party computation across diverse applications under Christopher Hartz Geraldine Bous. Afterwards, I moved to Frankfurt to work on data engineering
+          for Lufthansa.
+        </p>
+
+        <p>
+          Beyond these, my research interests also lie in AI and Creativity. At Tsinghua, I worked on a cross-domain style-matching
+          project called <a href="https://pablobiedma.github.io/Reel%20to%20Real.pdf" title="Reel to Real">Reel to Real</a>.
+        </p>
+
+    <p>
+  My passion for art started young. I serve as Chief Editor at
+  <a href="https://cinemacoloris.com/" title="Cinemacoloris">Cinemacoloris</a>, a Spanish
+  film magazine, through which I have attended dozens of film festivals including Cannes, Berlinale,
+  and La Biennale di Venezia.
+  Interviewing Academy Award winners such as
+  <a href="https://en.wikipedia.org/wiki/Jeremy_Thomas" title="Jeremy Thomas">Jeremy Thomas</a>
+  and <a href="https://en.wikipedia.org/wiki/Neil_Jordan" title="Neil Jordan">Neil Jordan</a>,
+  and filmmakers including
+  <a href="https://en.wikipedia.org/wiki/Makoto_Shinkai" title="Makoto Shinkai">Makoto Shinkai</a>,
+  <a href="https://en.wikipedia.org/wiki/Mark_Cousins_(filmmaker)" title="Mark Cousins">Mark Cousins</a>,
+  and <a href="https://en.wikipedia.org/wiki/Alauda_Ruiz_de_Az%C3%BAa" title="Alauda Ruiz de Azúa">Alauda Ruiz de Azúa</a>.
+  I was also an editor in the EU-funded documentary program
+  <a href="https://www.interaction.rs/en/pablo-biedma-nunez-eng/" title="Interaction">Interaction</a> in Serbia.
+</p>
+
+      </article>
+
+      <section id="publications">
+        <h2>Recent Publications</h2>
+        <ul>
+          <li>
+            Pablo Biedma*, Linus Huang, David A. Haslett, Maosong Sun, Janet H. Hsiao, Xiaoyuan Yi, &amp; Xing Xie (2025).
+            <em>Dual-Process Theory and Moral Judgment in Large Language Models</em>.
+            <span> · <a href="#">Preprint</a></span>
+          </li>
+
+          <li>
+            Pablo Biedma*, Xiaoyuan Yi, Linus Huang, Maosong Sun, &amp; Xing Xie (2024).
+            <em>Beyond Human Norms: Unveiling Unique Values of Large Language Models through Interdisciplinary Approaches</em>.
+            <span> · <a href="https://arxiv.org/abs/2404.12744">Preprint</a></span>
+          </li>
+        </ul>
+      </section>
+
+   <section id="awards">
+  <h2>Selected Awards</h2>
+  <ul class="awards-list">
+    <!-- 2025 -->
+    <li><span class="year">2025</span><div class="detail">Invited attendee, Hainan Free Trade Port Industry China Investment Conference</div></li>
+
+    <!-- 2024 -->
+    <li><span class="year">2024</span><div class="detail">Participant, United Nations GESC 2024, Tongji University, Shanghai</div></li>
+    <li><span class="year"></span><div class="detail">Mimic Elite International Cybersecurity Finals, Nanjing</div></li>
+    <li><span class="year"></span><div class="detail">KUSE &amp; AI for Research at Embassy of the Republic of Ecuador, China</div></li>
+
+    <!-- 2023 -->
+    <li><span class="year">2023</span><div class="detail">Riga Technical University Baxter Robot revival</div></li>
+    <li><span class="year"></span><div class="detail">Society of Hispanic Professional Engineers (SHPE) Certified graduate member</div></li>
+    <li><span class="year"></span><div class="detail">Film presented at Documentary Film Festival in Čačak, Serbia</div></li>
+
+
+    <!-- 2022 -->
+    <li><span class="year">2022</span><div class="detail">Semifinalist, Philips Innovation Award</div></li>
+    <li><span class="year"></span><div class="detail">Winner, HSIF pitching competition</div></li>
+
+    <!-- 2021 -->
+    <li><span class="year">2021</span><div class="detail">Finalist, Falling Walls Lab Delft</div></li>
+    <li><span class="year"></span><div class="detail">Winner, TU Delft Impact Contest</div></li>
+        <li><span class="year"></span><div class="detail">Film presented at Ca' Foscari Film Festival</div></li>
+
+
+    <!-- 2020 -->
+    <li><span class="year">2020</span><div class="detail">Participant, The Hague Program for Cyber Norms conference</div></li>
+    <li><span class="year"></span><div class="detail">Award-winning film presented at Arnhem Film Festival</div></li>
+
+    <!-- 2019 -->
+    <li><span class="year">2019</span><div class="detail">Winner, The Hague International Cyber Security Challenge</div></li>
+    <li><span class="year"></span><div class="detail">Winner, Yes!Delft “The Voice of Holland” pitching competition</div></li>
+
+    <!-- 2018 -->
+    <li><span class="year">2018</span><div class="detail">Runner-up, “Algeciras Best Young Researcher”</div></li>
+
+    <!-- 2017 -->
+    <li><span class="year">2017</span><div class="detail">Certified technician in First Aid Rescue and lifeguarding</div></li>
+    <li><span class="year"></span><div class="detail">High-performance certificate in Cyber Security, Carlos III University, Madrid</div></li>
+
+    <!-- 2016 -->
+    <li><span class="year">2016</span><div class="detail">Finalist, Barcelona International Youth Science Challenge</div></li>
+    <li><span class="year"></span><div class="detail">Semi-finalist, Audi Innovation Challenge</div></li>
+
+  </ul>
+
+  <script>
+    // // Highlight active nav link on scroll
+    // const sections = [...document.querySelectorAll('main section, article[id]')];
+    // const links = [...document.querySelectorAll('#sidebar-nav-links a')];
+
+    // function setActive() {
+    //   const y = window.scrollY + 100; // offset
+    //   let current = sections[0]?.id || '';
+    //   for (const s of sections) {
+    //     const top = s.getBoundingClientRect().top + window.scrollY;
+    //     if (y >= top) current = s.id;
+    //   }
+    //   links.forEach(a => a.classList.toggle('active', a.getAttribute('href').slice(1) === current));
+    // }
+    // window.addEventListener('scroll', setActive, { passive: true });
+    // window.addEventListener('load', setActive);
+
+    // Smooth scroll for in-page links (kept; “Back to top” removed)
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href').slice(1);
+        const target = document.getElementById(id);
+        if (target) {
+          e.preventDefault();
+          window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 20, behavior: 'smooth' });
+        }
+      });
+    });
+    
+  </script>
+<script>
+  // Open all http/https links in a new tab
+  document.querySelectorAll('a[href^="http"]').forEach(link => {
+    link.setAttribute('target', '_blank');
+    link.setAttribute('rel', 'noopener noreferrer');
+  });
+</script>
+
+
+</body>
+</html>
