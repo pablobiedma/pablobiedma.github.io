@@ -3,20 +3,58 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Modeling Portfolio</title>
+  <title>Pablo Biedma</title>
   <style>
+    :root {
+      --bg: #000;
+      --fg: #fff;
+      --glass: rgba(255,255,255,0.08);
+      --glass-border: rgba(255,255,255,0.25);
+    }
+
     body {
-      background-color: black;
-      color: white;
+      background-color: var(--bg);
+      color: var(--fg);
       font-family: Arial, sans-serif;
       text-align: center;
       margin: 0;
       padding: 20px;
     }
 
-    h1 { margin-bottom: 20px; font-size: 24px; }
+    h1 { margin: 6px 0 16px; font-size: 24px; }
 
-    /* Horizontal, swipeable gallery */
+    /* ---- Gallery wrapper with fades & buttons ---- */
+    .gallery-wrap { position: relative; margin: 0 auto; max-width: 1400px; }
+
+    /* Edge fades hinting sideways scroll */
+    .gallery-wrap::before,
+    .gallery-wrap::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 48px;
+      pointer-events: none;
+      z-index: 5;
+      transition: opacity .2s ease;
+    }
+    .gallery-wrap::before {
+      left: 0;
+      background: linear-gradient(to right, rgba(0,0,0,1), rgba(0,0,0,0));
+      opacity: 0;
+    }
+    .gallery-wrap::after {
+      right: 0;
+      background: linear-gradient(to left, rgba(0,0,0,1), rgba(0,0,0,0));
+      opacity: 1;
+    }
+    .gallery-wrap.at-start::before { opacity: 0; }
+    .gallery-wrap.at-start::after  { opacity: 1; }
+    .gallery-wrap.at-end::after    { opacity: 0; }
+    .gallery-wrap.at-middle::before,
+    .gallery-wrap.at-middle::after { opacity: 1; }
+
+    /* ---- Horizontal gallery ---- */
     .gallery {
       display: flex;
       flex-wrap: nowrap;
@@ -37,6 +75,7 @@
       transition: transform 0.25s ease-in-out;
       scroll-snap-align: center;
       cursor: pointer;
+      background: #111;
     }
     .gallery img:hover { transform: scale(1.04); }
 
@@ -44,7 +83,33 @@
       .gallery img { height: 200px; }
     }
 
-    /* Lightbox overlay */
+    /* ---- Scroll buttons ---- */
+    .scroll-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 40px;
+      width: 40px;
+      border-radius: 999px;
+      border: 1px solid var(--glass-border);
+      background: var(--glass);
+      color: #fff;
+      backdrop-filter: blur(4px);
+      cursor: pointer;
+      z-index: 6;
+      display: grid;
+      place-items: center;
+      opacity: 0.85;
+      transition: opacity .15s ease, background .15s ease, transform .1s ease;
+    }
+    .scroll-btn:hover { opacity: 1; background: rgba(255,255,255,0.15); }
+    .scroll-btn:active { transform: translateY(-50%) scale(0.98); }
+    .scroll-btn.left  { left: 8px; }
+    .scroll-btn.right { right: 8px; }
+    .gallery-wrap.at-start .scroll-btn.left { display: none; }
+    .gallery-wrap.at-end   .scroll-btn.right { display: none; }
+
+    /* ---- Lightbox overlay ---- */
     #lightbox {
       position: fixed;
       inset: 0;
@@ -61,11 +126,11 @@
       max-height: 90%;
       border-radius: 6px;
       box-shadow: 0 0 30px rgba(0,0,0,0.6);
-      transition: transform 0.25s ease;
+      transition: opacity .2s ease;
     }
 
-    /* Navigation arrows */
-    .arrow {
+    /* Lightbox arrows */
+    .lb-arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
@@ -76,51 +141,61 @@
       z-index: 2100;
       padding: 0 15px;
       transition: opacity 0.2s ease;
-      opacity: 0.7;
+      opacity: 0.85;
     }
-    .arrow:hover { opacity: 1; }
-    .arrow.left { left: 10px; }
-    .arrow.right { right: 10px; }
+    .lb-arrow:hover { opacity: 1; }
+    .lb-arrow.left { left: 10px; }
+    .lb-arrow.right { right: 10px; }
 
-    /* Close hint */
-    #lightbox::after {
-      content: "✕";
+    /* Lightbox close "X" */
+    #lightbox .lb-close {
       position: absolute;
-      top: 10px;
-      right: 20px;
+      top: 12px;
+      right: 18px;
       font-size: 1.8rem;
       color: white;
-      opacity: 0.7;
+      opacity: 0.8;
       cursor: pointer;
       user-select: none;
+      z-index: 2100;
     }
-    #lightbox::after:hover { opacity: 1; }
+    #lightbox .lb-close:hover { opacity: 1; }
   </style>
 </head>
-
 <body>
-  <h1>Modeling Portfolio</h1>
-  <div class="gallery" id="gallery"></div>
+  <h1>Pablo Biedma</h1>
+
+  <div class="gallery-wrap at-start">
+    <button class="scroll-btn left" aria-label="Scroll left">❮</button>
+    <div class="gallery" id="gallery"></div>
+    <button class="scroll-btn right" aria-label="Scroll right">❯</button>
+  </div>
 
   <!-- Lightbox -->
-  <div id="lightbox">
-    <span class="arrow left">❮</span>
-    <img alt="">
-    <span class="arrow right">❯</span>
+  <div id="lightbox" aria-modal="true" role="dialog">
+    <span class="lb-arrow left" aria-label="Previous">❮</span>
+    <img alt="" />
+    <span class="lb-arrow right" aria-label="Next">❯</span>
+    <span class="lb-close" aria-label="Close">✕</span>
   </div>
 
   <script>
     const repoUrl = "https://api.github.com/repos/pablobiedma/pablobiedma.github.io/contents/model_pics";
-    const gallery = document.getElementById("gallery");
-    const lightbox = document.getElementById("lightbox");
-    const lightImg = lightbox.querySelector("img");
-    const leftArrow = lightbox.querySelector(".arrow.left");
-    const rightArrow = lightbox.querySelector(".arrow.right");
+    const wrap = document.querySelector('.gallery-wrap');
+    const scroller = document.getElementById('gallery');
+    const btnLeft = wrap.querySelector('.scroll-btn.left');
+    const btnRight = wrap.querySelector('.scroll-btn.right');
+
+    const lightbox = document.getElementById('lightbox');
+    const lightImg = lightbox.querySelector('img');
+    const lbPrev = lightbox.querySelector('.lb-arrow.left');
+    const lbNext = lightbox.querySelector('.lb-arrow.right');
+    const lbClose = lightbox.querySelector('.lb-close');
 
     let images = [];
     let currentIndex = 0;
 
-    // Load images randomly
+    // Load images (random order)
     fetch(repoUrl)
       .then(r => r.json())
       .then(data => {
@@ -135,48 +210,55 @@
           img.src = src;
           img.loading = "lazy";
           img.decoding = "async";
-          gallery.appendChild(img);
+          scroller.appendChild(img);
         });
+
+        setTimeout(updateShadows, 400);
       })
       .catch(err => console.error("Error fetching images:", err));
 
-    // Open lightbox
-    gallery.addEventListener("click", e => {
-      if (e.target.tagName === "IMG") {
-        currentIndex = images.indexOf(e.target.src);
-        if (currentIndex === -1) return;
-        showImage();
-        lightbox.classList.add("show");
-      }
-    });
+    /* ---------- Horizontal scroll helpers ---------- */
+    function scrollByAmount(dx) {
+      scroller.scrollBy({ left: dx, behavior: 'smooth' });
+    }
 
-    // Close lightbox
-    lightbox.addEventListener("click", e => {
-      if (e.target === lightbox || e.target === lightbox.querySelector("::after")) {
-        lightbox.classList.remove("show");
-      }
-    });
+    function updateShadows() {
+      const atStart = scroller.scrollLeft <= 1;
+      const atEnd = Math.ceil(scroller.scrollLeft + scroller.clientWidth) >= scroller.scrollWidth - 1;
 
-    // Arrow navigation
-    leftArrow.addEventListener("click", e => {
-      e.stopPropagation();
-      prevImage();
-    });
-    rightArrow.addEventListener("click", e => {
-      e.stopPropagation();
-      nextImage();
-    });
+      wrap.classList.toggle('at-start', atStart);
+      wrap.classList.toggle('at-end', atEnd);
+      wrap.classList.toggle('at-middle', !atStart && !atEnd);
+    }
 
-    // Keyboard navigation
-    window.addEventListener("keydown", e => {
-      if (!lightbox.classList.contains("show")) return;
-      if (e.key === "ArrowLeft") prevImage();
-      if (e.key === "ArrowRight") nextImage();
-      if (e.key === "Escape") lightbox.classList.remove("show");
-    });
+    btnLeft.addEventListener('click', () => scrollByAmount(-Math.max(300, scroller.clientWidth * 0.8)));
+    btnRight.addEventListener('click', () => scrollByAmount(+Math.max(300, scroller.clientWidth * 0.8)));
 
+    scroller.addEventListener('scroll', updateShadows, { passive: true });
+    window.addEventListener('resize', updateShadows);
+
+    /* ---------- Lightbox logic ---------- */
     function showImage() {
-      lightImg.src = images[currentIndex];
+      lightImg.style.opacity = '0';
+      const src = images[currentIndex];
+      if (!src) return;
+      const tmp = new Image();
+      tmp.onload = () => {
+        lightImg.src = src;
+        lightImg.style.opacity = '1';
+      };
+      tmp.src = src;
+    }
+
+    function openLightboxFromSrc(src) {
+      currentIndex = images.indexOf(src);
+      if (currentIndex === -1) return;
+      showImage();
+      lightbox.classList.add('show');
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('show');
     }
 
     function nextImage() {
@@ -188,6 +270,31 @@
       currentIndex = (currentIndex - 1 + images.length) % images.length;
       showImage();
     }
+
+    // Open on click
+    scroller.addEventListener('click', e => {
+      if (e.target.tagName === 'IMG') {
+        openLightboxFromSrc(e.target.src);
+      }
+    });
+
+    // Lightbox controls
+    lbNext.addEventListener('click', e => { e.stopPropagation(); nextImage(); });
+    lbPrev.addEventListener('click', e => { e.stopPropagation(); prevImage(); });
+    lbClose.addEventListener('click', e => { e.stopPropagation(); closeLightbox(); });
+
+    // Click outside image to close
+    lightbox.addEventListener('click', e => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    // Keyboard navigation
+    window.addEventListener('keydown', e => {
+      if (!lightbox.classList.contains('show')) return;
+      if (e.key === 'ArrowRight') nextImage();
+      else if (e.key === 'ArrowLeft') prevImage();
+      else if (e.key === 'Escape') closeLightbox();
+    });
   </script>
 </body>
 </html>
