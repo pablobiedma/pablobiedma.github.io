@@ -75,48 +75,51 @@
   <h1>Modeling Portfolio</h1>
   <div class="gallery" id="gallery"></div>
 
-  <script>
-    const repoUrl = "https://api.github.com/repos/pablobiedma/pablobiedma.github.io/contents/model_pics";
-    const gallery = document.getElementById("gallery");
+ <script>
+  const repoUrl = "https://api.github.com/repos/pablobiedma/pablobiedma.github.io/contents/model_pics";
+  const gallery = document.getElementById("gallery");
 
-    // Create reusable lightbox element
-    const lightbox = document.createElement("div");
-    lightbox.id = "lightbox";
-    lightbox.innerHTML = "<img alt=''>";
-    document.body.appendChild(lightbox);
+  // Create reusable lightbox
+  const lightbox = document.createElement("div");
+  lightbox.id = "lightbox";
+  lightbox.innerHTML = "<img alt=''>";
+  document.body.appendChild(lightbox);
 
-    // Fetch images from GitHub repo folder
-    fetch(repoUrl)
-      .then(r => r.json())
-      .then(data => {
-        data.forEach(file => {
-          const n = file.name.toLowerCase();
-          if (n.endsWith(".jpg") || n.endsWith(".jpeg") || n.endsWith(".png") || n.endsWith(".webp")) {
-            const img = document.createElement("img");
-            img.src = file.download_url;
-            img.alt = file.name;
-            img.loading = "lazy";
-            img.decoding = "async";
-            gallery.appendChild(img);
-          }
-        });
-      })
-      .catch(err => console.error("Error fetching images:", err));
+  fetch(repoUrl)
+    .then(r => r.json())
+    .then(data => {
+      // Shuffle array of files randomly
+      data = data.sort(() => Math.random() - 0.5);
 
-    // Click thumbnail → show in overlay
-    gallery.addEventListener("click", e => {
-      const img = e.target;
-      if (img.tagName === "IMG") {
-        const lightImg = lightbox.querySelector("img");
-        lightImg.src = img.src;
-        lightbox.classList.add("show");
-      }
-    });
+      data.forEach(file => {
+        const n = file.name.toLowerCase();
+        if (n.endsWith(".jpg") || n.endsWith(".jpeg") || n.endsWith(".png") || n.endsWith(".webp")) {
+          const img = document.createElement("img");
+          img.src = file.download_url;
+          img.alt = file.name;
+          img.loading = "lazy";
+          img.decoding = "async";
+          gallery.appendChild(img);
+        }
+      });
+    })
+    .catch(err => console.error("Error fetching images:", err));
 
-    // Click overlay → close
-    lightbox.addEventListener("click", () => {
-      lightbox.classList.remove("show");
-    });
-  </script>
+  // Click thumbnail → show in overlay
+  gallery.addEventListener("click", e => {
+    const img = e.target;
+    if (img.tagName === "IMG") {
+      const lightImg = lightbox.querySelector("img");
+      lightImg.src = img.src;
+      lightbox.classList.add("show");
+    }
+  });
+
+  // Click overlay → close
+  lightbox.addEventListener("click", () => {
+    lightbox.classList.remove("show");
+  });
+</script>
+
 </body>
 </html>
