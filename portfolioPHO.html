@@ -78,9 +78,9 @@ fetch(repoUrl)
   .then(r => r.json())
   .then(data => {
     data.forEach(file => {
-      if (file.name.toLowerCase().endsWith(".png")) {
+      if (/\.(png|jpe?g|webp)$/i.test(file.name)) {
         const img = document.createElement("img");
-        img.src = `https://raw.githubusercontent.com/pablobiedma/pablobiedma.github.io/master/film/${file.name}`;
+        img.src = file.download_url;
         img.alt = file.name;
         img.loading = "lazy";
         img.decoding = "async";
