@@ -18,6 +18,7 @@
             font-size: 24px;
         }
         .gallery {
+            --h: min(400px, 60vh);
             display: flex;
             flex-wrap: nowrap;
             overflow-x: auto;
@@ -29,81 +30,137 @@
         .gallery::-webkit-scrollbar {
             display: none;
         }
-        .gallery img {
-            max-height: 400px;
+        /* Each photo sits in a placeholder box (3:2 until the real size is known),
+           so the strip doesn't jump around and lazy loading works */
+        .slot {
+            flex: 0 0 auto;
+            height: var(--h);
+            aspect-ratio: 3 / 2;
             border-radius: 5px;
+            background: #111;
+            overflow: hidden;
+            cursor: zoom-in;
             transition: transform 0.3s;
         }
-        .gallery img:hover {
+        .slot.loaded {
+            aspect-ratio: auto;
+            background: transparent;
+        }
+        .slot:hover {
             transform: scale(1.05);
         }
+        .slot img {
+            display: block;
+            height: 100%;
+            width: auto;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        .slot.loaded img {
+            opacity: 1;
+        }
         /* === Lightbox overlay === */
-#lightbox {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.9);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-}
-#lightbox img {
-  max-width: 90%;
-  max-height: 90%;
-  border-radius: 6px;
-  box-shadow: 0 0 30px rgba(0,0,0,0.6);
-  transition: transform 0.25s ease;
-}
-#lightbox.show {
-  display: flex;
-}
-
+        #lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s;
+            cursor: zoom-out;
+        }
+        #lightbox.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        #lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 6px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.6);
+            transform: scale(0.97);
+            transition: transform 0.3s ease;
+        }
+        #lightbox.show img {
+            transform: scale(1);
+        }
     </style>
 </head>
 <body>
     <h1>Pablo Biedma</h1>
     <div class="gallery" id="gallery"></div>
-    
+
     <script>
+// Originals live in film/. Small web copies live in film/thumbs/ (gallery)
+// and film/large/ (lightbox), same name with .jpg. If a photo has no web copy
+// yet, the original is used instead, so new uploads still appear.
 const repoUrl = "https://api.github.com/repos/pablobiedma/pablobiedma.github.io/contents/film";
 const gallery = document.getElementById("gallery");
 
-// Create one reusable lightbox
 const lightbox = document.createElement("div");
 lightbox.id = "lightbox";
 lightbox.innerHTML = "<img alt=''>";
 document.body.appendChild(lightbox);
+const large = lightbox.querySelector("img");
+
+const webCopy = (dir, name) =>
+  `film/${dir}/${encodeURIComponent(name.replace(/\.[^.]+$/, ""))}.jpg`;
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
 
 fetch(repoUrl)
   .then(r => r.json())
   .then(data => {
-    data.forEach(file => {
-      if (/\.(png|jpe?g|webp)$/i.test(file.name)) {
-        const img = document.createElement("img");
-        img.src = file.download_url;
-        img.alt = file.name;
-        img.loading = "lazy";
-        img.decoding = "async";
-        gallery.appendChild(img);
-      }
+    const photos = shuffle(data.filter(f => f.type === "file" && /\.(png|jpe?g|webp)$/i.test(f.name)));
+    photos.forEach((file, i) => {
+      const slot = document.createElement("div");
+      slot.className = "slot";
+      slot.dataset.large = webCopy("large", file.name);
+      slot.dataset.original = file.download_url;
+
+      const img = document.createElement("img");
+      img.alt = "";
+      img.decoding = "async";
+      img.loading = i < 4 ? "eager" : "lazy";
+      img.onload = () => slot.classList.add("loaded");
+      img.onerror = () => {
+        // No thumbnail yet: fall back to the original file
+        if (img.src !== file.download_url) img.src = file.download_url;
+        else slot.remove();
+      };
+      img.src = webCopy("thumbs", file.name);
+
+      slot.appendChild(img);
+      gallery.appendChild(slot);
     });
   })
   .catch(err => console.error("Error fetching images:", err));
 
-// Click thumbnail → open in overlay
+// Click photo → open in overlay (shows the thumbnail instantly, then swaps in the sharper version)
 gallery.addEventListener("click", e => {
-  const img = e.target;
-  if (img.tagName === "IMG") {
-    const large = lightbox.querySelector("img");
-    large.src = img.src;
-    lightbox.classList.add("show");
-  }
+  const slot = e.target.closest(".slot");
+  if (!slot) return;
+  large.src = slot.querySelector("img").src;
+  lightbox.classList.add("show");
+  const hi = new Image();
+  hi.onload = () => { if (lightbox.classList.contains("show")) large.src = hi.src; };
+  hi.onerror = () => { if (hi.src !== slot.dataset.original) hi.src = slot.dataset.original; };
+  hi.src = slot.dataset.large;
 });
 
-// Click overlay → close
-lightbox.addEventListener("click", () => {
-  lightbox.classList.remove("show");
-});
+// Click overlay or press Esc → close
+lightbox.addEventListener("click", () => lightbox.classList.remove("show"));
+document.addEventListener("keydown", e => { if (e.key === "Escape") lightbox.classList.remove("show"); });
 </script>
 
 </body>
